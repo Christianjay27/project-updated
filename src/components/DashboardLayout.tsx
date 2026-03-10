@@ -228,7 +228,9 @@ export default function DashboardLayout({ children, currentPage, onNavigate }: D
               </div>
             </div>
             <div className="bg-slate-50 rounded-lg px-3 py-2.5">
-              <p className="font-medium text-slate-900 text-sm leading-tight">{profile?.full_name}</p>
+              <p className="font-medium text-slate-900 text-sm leading-tight">
+                {profile?.full_name || profile?.email || 'User'}
+              </p>
               <p className="text-xs text-slate-500 capitalize mt-0.5 flex items-center gap-1.5">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 {profile?.role}

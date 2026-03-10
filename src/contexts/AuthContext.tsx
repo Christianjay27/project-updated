@@ -95,7 +95,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         api.get<any[]>('/users/me/features'),
       ]);
 
-      setProfile(profileData || null);
+      const normalizedProfile = profileData
+        ? ({
+            id: (profileData as any).id,
+            user_id: (profileData as any).user_id ?? (profileData as any).userId,
+            company_id: (profileData as any).company_id ?? (profileData as any).companyId,
+            email: (profileData as any).email,
+            full_name: (profileData as any).full_name ?? (profileData as any).fullName,
+            role: (profileData as any).role,
+          } as UserProfile)
+        : null;
+
+      setProfile(normalizedProfile);
 
       const companies = (companiesData || []).map((ca: any) => ({
         id: ca.id,
@@ -109,8 +120,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const savedCompanyId = localStorage.getItem('selected_company_id');
       if (savedCompanyId && companies.find((c) => c.company_id === savedCompanyId)) {
         setCurrentCompanyId(savedCompanyId);
-      } else if (profileData?.company_id) {
-        setCurrentCompanyId(profileData.company_id);
+      } else if (normalizedProfile?.company_id) {
+        setCurrentCompanyId(normalizedProfile.company_id);
       } else if (companies.length > 0) {
         setCurrentCompanyId(companies[0].company_id);
       } else {

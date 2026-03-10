@@ -19,7 +19,17 @@ usersRouter.get("/me/profile", async (req: AuthRequest, res) => {
     return res.status(404).json({ error: "Profile not found" });
   }
 
-  return res.json(profile);
+  return res.json({
+    id: profile.id,
+    user_id: profile.userId,
+    company_id: profile.companyId,
+    email: profile.email,
+    full_name: profile.fullName,
+    role: profile.role,
+    is_active: profile.isActive,
+    created_at: profile.createdAt,
+    updated_at: profile.updatedAt,
+  });
 });
 
 usersRouter.get("/me/companies", async (req: AuthRequest, res) => {
